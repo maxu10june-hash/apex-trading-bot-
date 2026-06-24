@@ -6,117 +6,153 @@ DASHBOARD_HTML = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex Trading Bot - v3.1</title>
+    <title>Apex Trading Bot - Premium Glass</title>
     <style>
         :root {
-            --bg: #faf8f6;
-            --card: #ffffff;
-            --text-main: #111111;
-            --text-sub: #666666;
-            --maroon: #542227;
-            --green: #22c55e;
-            --red: #ef4444;
-            --border: #f1eae4;
+            /* Apple Liquid Glass Transparency Variables */
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-maroon: rgba(84, 34, 39, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --text-main: #1a0f10;
+            --text-sub: #4a3e3f;
+            --text-white: #ffffff;
+            --green: #1ea74c;
+            --red: #e13434;
         }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            background-color: var(--bg);
+            /* 1st Image: Moon Wallpaper Integration */
+            background-image: url('https://i.postimg.cc/Y237fP5H/IMG-6198.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             padding: 20px;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
         }
 
-        /* Profile Top Header Card */
+        /* Container Layout */
+        .wrapper-layout {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Apple Liquid Glass Applied to Base Profile Card */
         .profile-card {
-            background: var(--card);
-            border-radius: 24px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(190%);
+            -webkit-backdrop-filter: blur(20px) saturate(190%);
+            border-radius: 28px;
             padding: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
         }
+        
         .user-block { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
-        .avatar {
-            width: 48px; height: 48px; background: #f5e6e6; color: var(--maroon);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 18px;
+        
+        /* 2nd Image Profile Avatar Integration with Auto-Face Center Crop */
+        .avatar-img-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            background-image: url('https://i.postimg.cc/HskgS2mp/IMG-5449.jpg');
+            background-size: 180%; /* Zoomed a bit for focused face view */
+            background-position: center 20%; /* Vertical position to focus exactly on face */
+            background-repeat: no-repeat;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        .user-info .name { font-size: 18px; font-weight: 700; color: var(--text-main); }
-        .user-info .sub { font-size: 12px; color: var(--text-sub); }
+        
+        .user-info .name { font-size: 18px; font-weight: 700; color: var(--text-main); text-shadow: 0 1px 2px rgba(255,255,255,0.4); }
+        .user-info .sub { font-size: 12px; color: var(--text-sub); font-weight: 500; }
 
-        /* Navigation Buttons - Maroon Pill Style */
+        /* Navigation Buttons - Apple Liquid Glass Maroon Pill */
         .nav-container { display: flex; flex-direction: column; gap: 8px; }
         .tab-btn {
             background: transparent; border: none; text-align: left;
             padding: 14px 20px; border-radius: 16px; font-size: 14px; font-weight: 600;
-            color: var(--text-sub); cursor: pointer; transition: all 0.2s ease;
+            color: var(--text-main); cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex; align-items: center; gap: 10px;
         }
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
         .tab-btn.active {
-            background: var(--maroon);
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(84, 34, 39, 0.2);
+            background: var(--glass-maroon);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--text-white);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 20px rgba(84, 34, 39, 0.25);
         }
 
         /* Main View Panels */
-        .tab-panel { display: none; margin-top: 20px; }
+        .tab-panel { display: none; }
         .tab-panel.active { display: block; }
 
-        /* Elegant Content Cards */
+        /* General Liquid Glass Dynamic Cards */
         .card {
-            background: var(--card);
-            border-radius: 24px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(190%);
+            -webkit-backdrop-filter: blur(20px) saturate(190%);
+            border-radius: 28px;
             padding: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
             margin-bottom: 16px;
-            border: 1px solid var(--border);
         }
         .card-title { font-size: 20px; font-weight: 700; color: var(--text-main); margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
         .card-label { font-size: 12px; font-weight: 600; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
         
-        /* Account Equity Serif-Style Big Numbers */
+        /* Serif Balance Typography */
         .equity-num { font-size: 38px; font-weight: 700; color: var(--text-main); font-family: "Times New Roman", Times, serif; margin: 8px 0; }
         .profit-text { color: var(--green); font-size: 14px; font-weight: 600; }
         .loss-text { color: var(--red); font-size: 14px; font-weight: 600; }
-        .counter-badge { font-size: 14px; background: var(--maroon); color: white; padding: 4px 10px; border-radius: 12px; font-weight: bold; }
+        .counter-badge { font-size: 13px; background: var(--glass-maroon); color: white; padding: 4px 10px; border-radius: 12px; font-weight: bold; }
 
-        /* Multi-column Grid */
         .sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
         .sub-val { font-size: 18px; font-weight: 700; color: var(--text-main); margin-top: 2px; }
 
-        /* Lists & Rows */
-        .list-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
+        .list-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
         .list-row:last-child { border-bottom: none; }
         .list-left { font-weight: 600; color: var(--text-main); }
         .list-right { font-weight: 700; color: var(--text-main); }
-        .list-subtext { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
+        .list-subtext { font-size: 11px; color: var(--text-sub); margin-top: 2px; font-weight: 500; }
 
-        /* Special Styled Highlight Box */
-        .spec-box { background: #fafafa; border-left: 4px solid var(--maroon); padding: 14px; border-radius: 0 12px 12px 0; margin-bottom: 12px; }
-        .spec-box.green-side { border-left-color: var(--green); }
-        .spec-box.red-side { border-left-color: var(--red); }
+        /* Liquid Soft Alerts */
+        .spec-box { background: rgba(255, 255, 255, 0.25); border-left: 4px solid rgba(84, 34, 39, 0.8); padding: 14px; border-radius: 0 16px 16px 0; margin-bottom: 12px; }
+        .spec-box.green-side { border-left-color: var(--green); background: rgba(30, 167, 76, 0.08); }
+        .spec-box.red-side { border-left-color: var(--red); background: rgba(225, 52, 52, 0.08); }
         
-        /* Strategy Sub-sections styling */
-        .strategy-cat { margin-bottom: 20px; border-bottom: 1px dashed var(--border); padding-bottom: 15px; }
+        .strategy-cat { margin-bottom: 20px; border-bottom: 1px dashed rgba(0,0,0,0.08); padding-bottom: 15px; }
         .strategy-cat:last-child { border-bottom: none; }
-        .strategy-cat-title { font-size: 15px; font-weight: 700; color: var(--maroon); margin-bottom: 10px; }
+        .strategy-cat-title { font-size: 15px; font-weight: 700; color: #421216; margin-bottom: 10px; }
         .strategy-list { display: grid; grid-template-columns: 1fr; gap: 6px; }
-        .strategy-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #faf8f6; border-radius: 8px; font-size: 13px; font-weight: 500; }
-        .strat-badge { font-size: 10px; padding: 2px 6px; background: #f0e6e6; color: var(--maroon); border-radius: 4px; font-weight: 700; }
-        .strat-badge.active-strat { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+        .strategy-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(255,255,255,0.2); border-radius: 10px; font-size: 13px; font-weight: 500; }
+        .strat-badge { font-size: 10px; padding: 2px 6px; background: rgba(84, 34, 39, 0.15); color: #421216; border-radius: 4px; font-weight: 700; }
+        .strat-badge.active-strat { background: rgba(30, 167, 76, 0.2); color: var(--green); }
 
-        /* Evolution Progress Bar */
-        .progress-bar-bg { background: #f1eae4; border-radius: 10px; height: 12px; width: 100%; margin: 12px 0; overflow: hidden; }
-        .progress-bar-fill { background: var(--maroon); height: 100%; width: 75%; transition: width 0.5s ease; }
-        .empty-state { text-align: center; color: #999; padding: 30px 10px; font-size: 14px; font-style: italic; }
+        .progress-bar-bg { background: rgba(0,0,0,0.08); border-radius: 10px; height: 12px; width: 100%; margin: 12px 0; overflow: hidden; }
+        .progress-bar-fill { background: rgba(84, 34, 39, 0.85); height: 100%; width: 75%; }
+        .empty-state { text-align: center; color: var(--text-sub); padding: 30px 10px; font-size: 14px; font-style: italic; font-weight: 500; }
     </style>
 </head>
 <body>
 
+<div class="wrapper-layout">
     <div class="profile-card">
         <div class="user-block">
-            <div class="avatar">F</div>
+            <div class="avatar-img-box"></div>
             <div class="user-info">
                 <div class="name">@FabRichhhhhh</div>
                 <div class="sub">Apex Trading Bot - v3.1</div>
@@ -156,7 +192,7 @@ DASHBOARD_HTML = """
             <div class="card-title">Live Sync Status</div>
             <div class="list-row">
                 <div class="list-left">Last Updated Loop:</div>
-                <div class="list-right" id="last-sync-time" style="color: var(--maroon);">Connecting...</div>
+                <div class="list-right" id="last-sync-time" style="color: #542227;">Connecting...</div>
             </div>
         </div>
     </div>
@@ -164,8 +200,8 @@ DASHBOARD_HTML = """
     <div id="portfolio" class="tab-panel">
         <div class="card">
             <div class="card-title">Total Portfolio Value</div>
-            <div class="equity-num" id="live-portfolio-val" style="color: var(--maroon);">₹1,32,450</div>
-            <div class="profit-text">Net Yield Status: Stable (Paper Mode)</div>
+            <div class="equity-num" id="live-portfolio-val" style="color: #542227;">₹1,32,450</div>
+            <div class="profit-text" style="color:var(--text-sub);">Net Yield Status: Stable (Paper Mode)</div>
         </div>
 
         <div class="card">
@@ -195,11 +231,11 @@ DASHBOARD_HTML = """
     </div>
 
     <div id="evolution" class="tab-panel">
-        <div class="card" style="text-align: center; padding: 30px 20px;">
+        <div class="card" style="text-align: center;">
             <div class="card-title" style="margin-bottom: 5px;">Bot Self-Evolution Engine</div>
             <div class="user-info"><div class="sub" style="margin-bottom: 15px;">Autonomous Learning Log</div></div>
             
-            <div class="equity-num" style="color: var(--maroon); font-size: 42px;">LEVEL 4</div>
+            <div class="equity-num" style="color: #542227; font-size: 42px;">LEVEL 4</div>
             
             <div class="progress-bar-bg">
                 <div class="progress-bar-fill"></div>
@@ -402,7 +438,7 @@ DASHBOARD_HTML = """
             <div class="sub-grid" style="margin-bottom: 20px;">
                 <div>
                     <div class="card-label">Fear & Greed Index</div>
-                    <div class="sub-val" style="color: var(--maroon);">64 / 100 (GREED)</div>
+                    <div class="sub-val" style="color: #542227;">64 / 100 (GREED)</div>
                 </div>
                 <div>
                     <div class="card-label">Macro Capital Flow</div>
@@ -451,95 +487,91 @@ DASHBOARD_HTML = """
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        function openTab(evt, tabName) {
-            var i, tabPanel, tabBtn;
-            tabPanel = document.getElementsByClassName("tab-panel");
-            for (i = 0; i < tabPanel.length; i++) {
-                tabPanel[i].classList.remove("active");
-            }
-            tabBtn = document.getElementsByClassName("tab-btn");
-            for (i = 0; i < tabBtn.length; i++) {
-                tabBtn[i].classList.remove("active");
-            }
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
+<script>
+    function openTab(evt, tabName) {
+        var i, tabPanel, tabBtn;
+        tabPanel = document.getElementsByClassName("tab-panel");
+        for (i = 0; i < tabPanel.length; i++) {
+            tabPanel[i].classList.remove("active");
         }
-
-        // Real-time backend synchronization loop
-        async function syncWithBotBackend() {
-            try {
-                let response = await fetch('/api/state');
-                let state = await response.json();
-
-                // 1. Sync Overview Counters
-                document.getElementById('live-cash-inr').innerText = "₹" + state.portfolio.cash_inr.toLocaleString();
-                document.getElementById('live-cash-usd').innerText = "$" + state.portfolio.cash_usd.toLocaleString();
-                document.getElementById('last-sync-time').innerText = state.last_update || "Waiting...";
-                document.getElementById('history-counter-badge').innerText = state.portfolio.total_trades_executed;
-
-                // Portfolio Value calculation simulation
-                let dynamicEquity = 1000; 
-                state.active_positions.forEach(p => dynamicEquity += (p.pnl || 0));
-                document.getElementById('live-equity').innerText = "$" + dynamicEquity.toFixed(2);
-                document.getElementById('live-portfolio-val').innerText = "₹" + state.portfolio.portfolio_value_inr.toLocaleString();
-
-                // 2. Sync Active Positions Content
-                let posContainer = document.getElementById('live-positions-container');
-                if(state.active_positions.length === 0) {
-                    posContainer.innerHTML = '<div class="empty-state">Bot market scan kar raha hai, entry aate hi trade yahan live dikhegi...</div>';
-                } else {
-                    posContainer.innerHTML = '';
-                    state.active_positions.forEach(pos => {
-                        let sideColor = pos.pnl >= 0 ? 'green-side' : 'red-side';
-                        let textColor = pos.pnl >= 0 ? 'profit-text' : 'loss-text';
-                        let sign = pos.pnl >= 0 ? '+' : '';
-                        posContainer.innerHTML += `
-                            <div class="spec-box ${sideColor}">
-                                <div style="display:flex; justify-content: space-between; font-weight:700;">
-                                    <span>${pos.symbol}</span>
-                                    <span class="${textColor}">${sign}${pos.pnl}%</span>
-                                </div>
-                                <div class="list-subtext">Size: Dynamic Base • <strong>Leverage: ${pos.leverage}</strong></div>
-                                <div class="list-subtext" style="margin-top:4px;">Entry Price: $${pos.entry_price} | Current Price: $${pos.current_price}</div>
-                            </div>
-                        `;
-                    });
-                }
-
-                // 3. Sync Closed Trades History Log
-                let histContainer = document.getElementById('live-history-container');
-                if(state.trades_history.length === 0) {
-                    histContainer.innerHTML = '<div class="empty-state">Jaise hi bot paper trade close karega, history yahan aayegi.</div>';
-                } else {
-                    histContainer.innerHTML = '';
-                    state.trades_history.forEach(trade => {
-                        let textClass = trade.pnl >= 0 ? 'profit-text' : 'loss-text';
-                        let sign = trade.pnl >= 0 ? '+' : '';
-                        histContainer.innerHTML += `
-                            <div class="list-row">
-                                <div>
-                                    <div class="list-left">${trade.symbol}</div>
-                                    <div class="list-subtext">Closed @ ${trade.exit_time}</div>
-                                </div>
-                                <div style="text-align: right;">
-                                    <div class="${textClass}">${sign}${trade.pnl}%</div>
-                                    <div class="list-subtext">Filled</div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
-
-            } catch (err) {
-                console.log("Sync delay with background service: ", err);
-            }
+        tabBtn = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tabBtn.length; i++) {
+            tabBtn[i].classList.remove("active");
         }
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
 
-        setInterval(syncWithBotBackend, 5000);
-        syncWithBotBackend();
-    </script>
+    async function syncWithBotBackend() {
+        try {
+            let response = await fetch('/api/state');
+            let state = await response.json();
+
+            document.getElementById('live-cash-inr').innerText = "₹" + state.portfolio.cash_inr.toLocaleString();
+            document.getElementById('live-cash-usd').innerText = "$" + state.portfolio.cash_usd.toLocaleString();
+            document.getElementById('last-sync-time').innerText = state.last_update || "Waiting...";
+            document.getElementById('history-counter-badge').innerText = state.portfolio.total_trades_executed;
+
+            let dynamicEquity = 1000; 
+            state.active_positions.forEach(p => dynamicEquity += (p.pnl || 0));
+            document.getElementById('live-equity').innerText = "$" + dynamicEquity.toFixed(2);
+            document.getElementById('live-portfolio-val').innerText = "₹" + state.portfolio.portfolio_value_inr.toLocaleString();
+
+            let posContainer = document.getElementById('live-positions-container');
+            if(state.active_positions.length === 0) {
+                posContainer.innerHTML = '<div class="empty-state">Bot market scan kar raha hai, entry aate hi trade yahan live dikhegi...</div>';
+            } else {
+                posContainer.innerHTML = '';
+                state.active_positions.forEach(pos => {
+                    let sideColor = pos.pnl >= 0 ? 'green-side' : 'red-side';
+                    let textColor = pos.pnl >= 0 ? 'profit-text' : 'loss-text';
+                    let sign = pos.pnl >= 0 ? '+' : '';
+                    posContainer.innerHTML += `
+                        <div class="spec-box ${sideColor}">
+                            <div style="display:flex; justify-content: space-between; font-weight:700;">
+                                <span>${pos.symbol}</span>
+                                <span class="${textColor}">${sign}${pos.pnl}%</span>
+                            </div>
+                            <div class="list-subtext">Size: Dynamic Base • <strong>Leverage: ${pos.leverage}</strong></div>
+                            <div class="list-subtext" style="margin-top:4px;">Entry Price: $${pos.entry_price} | Current Price: $${pos.current_price}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            let histContainer = document.getElementById('live-history-container');
+            if(state.trades_history.length === 0) {
+                histContainer.innerHTML = '<div class="empty-state">Jaise hi bot paper trade close karega, history yahan aayegi.</div>';
+            } else {
+                histContainer.innerHTML = '';
+                state.trades_history.forEach(trade => {
+                    let textClass = trade.pnl >= 0 ? 'profit-text' : 'loss-text';
+                    let sign = trade.pnl >= 0 ? '+' : '';
+                    histContainer.innerHTML += `
+                        <div class="list-row">
+                            <div>
+                                <div class="list-left">${trade.symbol}</div>
+                                <div class="list-subtext">Closed @ ${trade.exit_time}</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="${textClass}">${sign}${trade.pnl}%</div>
+                                <div class="list-subtext">Filled</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+        } catch (err) {
+            console.log("Sync delay: ", err);
+        }
+    }
+
+    setInterval(syncWithBotBackend, 5000);
+    syncWithBotBackend();
+</script>
 </body>
 </html>
 """
