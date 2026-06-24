@@ -91,6 +91,21 @@ DASHBOARD_HTML = """
 
         /* Special Styled Highlight Box */
         .spec-box { background: #fafafa; border-left: 4px solid var(--maroon); padding: 14px; border-radius: 0 12px 12px 0; margin-bottom: 12px; }
+        .spec-box.green-side { border-left-color: var(--green); }
+        .spec-box.red-side { border-left-color: var(--red); }
+        
+        /* Strategy Sub-sections styling */
+        .strategy-cat { margin-bottom: 20px; border-bottom: 1px dashed var(--border); padding-bottom: 15px; }
+        .strategy-cat:last-child { border-bottom: none; }
+        .strategy-cat-title { font-size: 15px; font-weight: 700; color: var(--maroon); margin-bottom: 10px; }
+        .strategy-list { display: grid; grid-template-columns: 1fr; gap: 6px; }
+        .strategy-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #faf8f6; border-radius: 8px; font-size: 13px; font-weight: 500; }
+        .strat-badge { font-size: 10px; padding: 2px 6px; background: #f0e6e6; color: var(--maroon); border-radius: 4px; font-weight: 700; }
+        .strat-badge.active-strat { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+
+        /* Evolution Progress Bar */
+        .progress-bar-bg { background: #f1eae4; border-radius: 10px; height: 12px; width: 100%; margin: 12px 0; overflow: hidden; }
+        .progress-bar-fill { background: var(--maroon); height: 100%; width: 75%; transition: width 0.5s ease; }
     </style>
 </head>
 <body>
@@ -107,7 +122,11 @@ DASHBOARD_HTML = """
             <button class="tab-btn active" onclick="openTab(event, 'overview')">● Overview</button>
             <button class="tab-btn" onclick="openTab(event, 'portfolio')">● Live Portfolio</button>
             <button class="tab-btn" onclick="openTab(event, 'positions')">● Positions</button>
-            <button class="tab-btn" onclick="openTab(event, 'trades')">● Trades</button>
+            <button class="tab-btn" onclick="openTab(event, 'evolution')">● Evolution</button>
+            <button class="tab-btn" onclick="openTab(event, 'strategy')">● Strategy Book</button>
+            <button class="tab-btn" onclick="openTab(event, 'world')">● World Feature</button>
+            <button class="tab-btn" onclick="openTab(event, 'lessons')">● Lesson Bank</button>
+            <button class="tab-btn" onclick="openTab(event, 'trades')">● Trades History</button>
         </div>
     </div>
 
@@ -179,20 +198,278 @@ DASHBOARD_HTML = """
 
     <div id="positions" class="tab-panel">
         <div class="card">
-            <div class="card-title">Open Positions</div>
-            <div class="spec-box">
+            <div class="card-title">Active Leverage Positions</div>
+            
+            <div class="spec-box green-side">
                 <div style="display:flex; justify-content: space-between; font-weight:700;">
                     <span>RELIANCE LONG</span>
                     <span class="profit-text">+$450 (1.8%)</span>
                 </div>
-                <div class="list-subtext">Size: ₹25,000 • 5x Leverage</div>
+                <div class="list-subtext">Size: ₹25,000 • <strong>Leverage: 5x</strong></div>
+                <div class="list-subtext" style="margin-top:4px;">Entry Price: ₹2,460 | Current Price: ₹2,504</div>
+            </div>
+
+            <div class="spec-box red-side" style="margin-top: 15px;">
+                <div style="display:flex; justify-content: space-between; font-weight:700;">
+                    <span>TCS SHORT</span>
+                    <span class="loss-text">-$120 (-0.5%)</span>
+                </div>
+                <div class="list-subtext">Size: ₹15,000 • <strong>Leverage: 3x</strong></div>
+                <div class="list-subtext" style="margin-top:4px;">Entry Price: ₹3,920 | Current Price: ₹3,940</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="evolution" class="tab-panel">
+        <div class="card" style="text-align: center; padding: 30px 20px;">
+            <div class="card-title" style="margin-bottom: 5px;">Bot Self-Evolution Engine</div>
+            <div class="user-info"><div class="sub" style="margin-bottom: 15px;">Autonomous Learning Log</div></div>
+            
+            <div class="equity-num" style="color: var(--maroon); font-size: 42px;">LEVEL 4</div>
+            
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-sub); font-weight: 600;">
+                <span>75% Evolved</span>
+                <span>Next: Level 5</span>
+            </div>
+
+            <div class="spec-box" style="text-align: left; margin-top: 25px;">
+                <strong>Recent Auto-Evolution Update:</strong>
+                <p class="list-subtext" style="font-size: 12px; line-height: 1.4; margin-top: 4px;">Bot updated its neural weights after scanning 14 continuous profit loops. Adjusted dynamic slippage tolerances automatically for high-impact market phases.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="strategy" class="tab-panel">
+        <div class="card">
+            <div class="card-title">AI Strategy Book</div>
+            <p class="list-subtext" style="margin-bottom: 20px; font-size: 12px;">The bot upgrades and optimizes these strategies dynamically according to market loops.</p>
+
+            <div class="strategy-cat">
+                <div class="strategy-cat-title">Trend Following Strategies</div>
+                <div class="strategy-list">
+                    <div class="strategy-item"><span>1. Moving Average Crossover</span><span class="strat-badge active-strat">Upgrading</span></div>
+                    <div class="strategy-item"><span>2. EMA Crossover</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>3. Supertrend Strategy</span><span class="strat-badge active-strat">Active</span></div>
+                    <div class="strategy-item"><span>4. Donchian Channel Breakout</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>5. Turtle Trading</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>6. ADX Trend Strategy</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>7. Ichimoku Cloud Strategy</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>8. Trendline Breakout</span><span class="strat-badge">Ready</span></div>
+                </div>
+            </div>
+
+            <div class="strategy-cat">
+                <div class="strategy-cat-title">Breakout Strategies</div>
+                <div class="strategy-list">
+                    <div class="strategy-item"><span>9. Opening Range Breakout (ORB)</span><span class="strat-badge active-strat">Active</span></div>
+                    <div class="strategy-item"><span>10. Volume Breakout</span><span class="strat-badge active-strat">Upgrading</span></div>
+                    <div class="strategy-item"><span>11. Range Breakout</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>12. Support Resistance Breakout</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>13. Volatility Breakout</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>14. Bollinger Band Breakout</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>15. Triangle Breakout</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>16. Flag Breakout</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>17. Pennant Breakout</span><span class="strat-badge">Ready</span></div>
+                </div>
+            </div>
+
+            <div class="strategy-cat">
+                <div class="strategy-cat-title">Reversal Strategies</div>
+                <div class="strategy-list">
+                    <div class="strategy-item"><span>18. Double Top</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>19. Double Bottom</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>20. Head and Shoulders</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>21. Inverse Head and Shoulders</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>22. RSI Divergence</span><span class="strat-badge active-strat">Active</span></div>
+                    <div class="strategy-item"><span>23. MACD Divergence</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>24. Stochastic Reversal</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>25. V-Shape Reversal</span><span class="strat-badge">Ready</span></div>
+                </div>
+            </div>
+
+            <div class="strategy-cat">
+                <div class="strategy-cat-title">Pullback Strategies</div>
+                <div class="strategy-list">
+                    <div class="strategy-item"><span>26. EMA Pullback</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>27. Fibonacci Retracement</span><span class="strat-badge active-strat">Upgrading</span></div>
+                    <div class="strategy-item"><span>28. VWAP Pullback</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>29. Trendline Retest</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>30. Support Retest</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>31. Demand Zone Pullback</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>32. Supply Zone Pullback</span><span class="strat-badge">Ready</span></div>
+                </div>
+            </div>
+
+            <div class="strategy-cat">
+                <div class="strategy-cat-title">Price Action Strategies</div>
+                <div class="strategy-list">
+                    <div class="strategy-item"><span>33. Inside Bar</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>34. Outside Bar</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>35. Pin Bar</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>36. Engulfing Candle</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>37. Fakey Pattern</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>38. Break and Retest</span><span class="strat-badge active-strat">Active</span></div>
+                    <div class="strategy-item"><span>39. Order Block Strategy</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>40. Liquidity Grab Strategy</span><span class="strat-badge active-strat">Upgrading</span></div>
+                    <div class="strategy-item"><span>41. Smart Money Concept (SMC)</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>42. ICT Strategy</span><span class="strat-badge">Ready</span></div>
+                </div>
+            </div>
+
+            <div class="strategy-cat">
+                <div class="strategy-cat-title">Indicator-Based Strategies</div>
+                <div class="strategy-list">
+                    <div class="strategy-item"><span>43. RSI Strategy</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>44. MACD Strategy</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>45. Bollinger Bands Strategy</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>46. VWAP Strategy</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>47. ATR Strategy</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>48. Parabolic SAR Strategy</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>49. CCI Strategy</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>50. Stochastic Strategy</span><span class="strat-badge">Ready</span></div>
+                </div>
+            </div>
+
+            <div class="strategy-cat">
+                <div class="strategy-cat-title">Scalping Strategies</div>
+                <div class="strategy-list">
+                    <div class="strategy-item"><span>51. 1-Minute Scalping</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>52. 5-Minute Scalping</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>53. Tick Scalping</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>54. VWAP Scalping</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>55. EMA Scalping</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>56. Momentum Scalping</span><span class="strat-badge">Ready</span></div>
+                </div>
+            </div>
+
+            <div class="strategy-cat">
+                <div class="strategy-cat-title">Intraday Strategies</div>
+                <div class="strategy-list">
+                    <div class="strategy-item"><span>57. Gap Up Gap Down</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>58. CPR Strategy</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>59. VWAP Intraday</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>60. First Hour Breakout</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>61. Noon Breakout</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>62. Momentum Trading</span><span class="strat-badge">Ready</span></div>
+                </div>
+            </div>
+
+            <div class="strategy-cat">
+                <div class="strategy-cat-title">Advanced Strategies</div>
+                <div class="strategy-list">
+                    <div class="strategy-item"><span>63. Market Structure Strategy</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>64. Wyckoff Method</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>65. Elliott Wave</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>66. Harmonic Patterns</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>67. Gann Strategy</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>68. Pair Trading</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>69. Arbitrage Trading</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>70. Statistical Arbitrage</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>71. Quantitative Trading</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>72. Algorithmic Trading</span><span class="strat-badge active-strat">Active</span></div>
+                </div>
+            </div>
+
+            <div class="strategy-cat">
+                <div class="strategy-cat-title">Options Trading Strategies</div>
+                <div class="strategy-list">
+                    <div class="strategy-item"><span>73. Covered Call</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>74. Cash Secured Put</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>75. Bull Call Spread</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>76. Bear Put Spread</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>77. Iron Condor</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>78. Iron Butterfly</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>79. Straddle</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>80. Strangle</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>81. Calendar Spread</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>82. Butterfly Spread</span><span class="strat-badge">Ready</span></div>
+                </div>
+            </div>
+
+            <div class="strategy-cat">
+                <div class="strategy-cat-title">Futures & Institutional Concepts</div>
+                <div class="strategy-list">
+                    <div class="strategy-item"><span>83. Volume Profile</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>84. Market Profile</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>85. Footprint Trading</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>86. Delta Trading</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>87. Order Flow Trading</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>88. Liquidity Sweep</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>89. Fair Value Gap (FVG)</span><span class="strat-badge active-strat">Active</span></div>
+                    <div class="strategy-item"><span>90. Breaker Block</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>91. Mitigation Block</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>92. Kill Zone Strategy</span><span class="strat-badge">Ready</span></div>
+                </div>
+            </div>
+
+            <div class="strategy-cat">
+                <div class="strategy-cat-title">Candlestick-Based Strategies</div>
+                <div class="strategy-list">
+                    <div class="strategy-item"><span>93. Morning Star</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>94. Evening Star</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>95. Three White Soldiers</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>96. Three Black Crows</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>97. Hammer</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>98. Shooting Star</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>99. Harami</span><span class="strat-badge">Ready</span></div>
+                    <div class="strategy-item"><span>100. Doji Strategy</span><span class="strat-badge">Ready</span></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="world" class="tab-panel">
+        <div class="card">
+            <div class="card-title">World Sentiment Metric</div>
+            
+            <div class="sub-grid" style="margin-bottom: 20px;">
+                <div>
+                    <div class="card-label">Fear & Greed Index</div>
+                    <div class="sub-val" style="color: var(--maroon);">64 / 100 (GREED)</div>
+                </div>
+                <div>
+                    <div class="card-label">Macro Capital Flow</div>
+                    <div class="sub-val" style="color: var(--green);">BULLISH FLOW</div>
+                </div>
+            </div>
+
+            <div class="card-label" style="margin-top: 15px;">Processed Global News Headlines</div>
+            <div class="spec-box">
+                <strong>🌐 Fed Signals Stable Interest Rates</strong>
+                <p class="list-subtext">Macro Filter Impact: Bot asset allocation weights increased by 5%.</p>
+            </div>
+            <div class="spec-box" style="margin-top: 10px;">
+                <strong>🌐 Tech Indices Face Temporary Structural Resistance</strong>
+                <p class="list-subtext">Macro Filter Impact: Automated tight trailing stop-loss execution on IT assets.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="lessons" class="tab-panel">
+        <div class="card">
+            <div class="card-title">Bot Self-Compiled Lessons</div>
+            <p class="list-subtext" style="margin-bottom: 15px;">Automated internal constraints written post back-testing failures.</p>
+
+            <div class="spec-box red-side">
+                <strong>Lesson #104 (Risk Management Rules)</strong>
+                <p class="list-subtext" style="font-style: italic; font-size:12px; margin-top:4px;">"Entering aggressive positions 10 minutes before highly volatile institutional global news releases leads to bad slippage execution. Halting processing pipelines 15 mins prior to events."</p>
+            </div>
+
+            <div class="spec-box green-side" style="margin-top: 15px;">
+                <strong>Lesson #103 (Leverage Risk Safety)</strong>
+                <p class="list-subtext" style="font-style: italic; font-size:12px; margin-top:4px;">"Running 5x leverage positions on high-beta setups over-exposes net margin account buffers. Capped strict system max limits to 3x on extreme counters."</p>
             </div>
         </div>
     </div>
 
     <div id="trades" class="tab-panel">
         <div class="card">
-            <div class="card-title">Past Executed Logs</div>
+            <div class="card-title">Executed Trades Log</div>
+            
             <div class="list-row">
                 <div>
                     <div class="list-left">INFY LONG</div>
@@ -200,9 +477,10 @@ DASHBOARD_HTML = """
                 </div>
                 <div style="text-align: right;">
                     <div class="profit-text">+$85.40</div>
-                    <div class="list-subtext">3x Lev</div>
+                    <div class="list-subtext">Leverage: 3x</div>
                 </div>
             </div>
+
             <div class="list-row">
                 <div>
                     <div class="list-left">RELIANCE SHORT</div>
@@ -210,7 +488,18 @@ DASHBOARD_HTML = """
                 </div>
                 <div style="text-align: right;">
                     <div class="loss-text">-$32.10</div>
-                    <div class="list-subtext">5x Lev</div>
+                    <div class="list-subtext">Leverage: 5x</div>
+                </div>
+            </div>
+
+            <div class="list-row">
+                <div>
+                    <div class="list-left">TCS LONG</div>
+                    <div class="list-subtext">Filled • Yesterday</div>
+                </div>
+                <div style="text-align: right;">
+                    <div class="profit-text">+$95.20</div>
+                    <div class="list-subtext">Leverage: 3x</div>
                 </div>
             </div>
         </div>
@@ -220,9 +509,13 @@ DASHBOARD_HTML = """
         function openTab(evt, tabName) {
             var i, tabPanel, tabBtn;
             tabPanel = document.getElementsByClassName("tab-panel");
-            for (i = 0; i < tabPanel.length; i++) { tabPanel[i].classList.remove("active"); }
+            for (i = 0; i < tabPanel.length; i++) {
+                tabPanel[i].classList.remove("active");
+            }
             tabBtn = document.getElementsByClassName("tab-btn");
-            for (i = 0; i < tabBtn.length; i++) { tabBtn[i].classList.remove("active"); }
+            for (i = 0; i < tabBtn.length; i++) {
+                tabBtn[i].classList.remove("active");
+            }
             document.getElementById(tabName).classList.add("active");
             evt.currentTarget.classList.add("active");
         }
