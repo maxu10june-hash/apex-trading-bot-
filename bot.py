@@ -18,25 +18,23 @@ CORS(app)
 # ==========================================
 NGROOK_AUTH_TOKEN = "3FZ3OZaE5f5li46oOKs12L1tzK7_4V1C5g6uCgm2UbcfwcHKK"
 
-# Shared Real-time State
 STATE = {
     "last_update": None,
     "portfolio": {
         "cash_inr": 50000,
         "cash_usd": 1000,
-        "total_trades_executed": 0, # Total trades counter
+        "total_trades_executed": 0,
         "portfolio_value_inr": 132450
     },
     "prices": {
         "NSE": {"RELIANCE": 2500, "TCS": 3900, "INFY": 1600},
-        "NASDAQ": {"AAPL": 180, "TSLA": 175, "NVDA": 850} # US Stocks Added
+        "NASDAQ": {"AAPL": 180, "TSLA": 175, "NVDA": 850}
     },
-    "active_positions": [], # Abhi kaun sa trade chal raha hai
-    "trades_history": []    # Purane saare trades ka record
+    "active_positions": [],
+    "trades_history": []
 }
 
 def get_live_price(market, symbol):
-    """Fetches real-time stock prices from Google Finance safely"""
     try:
         query = f"NSE:{symbol}" if market == "NSE" else f"NASDAQ:{symbol}"
         url = f"https://www.google.com/search?q={query}"
@@ -53,12 +51,13 @@ def get_live_price(market, symbol):
     return None
 
 def paper_trading_logic():
-    """Bot dynamic analysis loop for Indian & US Markets"""
     print("🚀 Advanced Paper Trading Engine Started...")
     
     while True:
-        now = datetime.datetime.now()
-        now_str = now.strftime("%H:%M:%S")
+        # Render server (UTC) ko Indian Time (IST) mein convert karna
+        utc_now = datetime.datetime.utcnow()
+        ist_now = utc_now + datetime.timedelta(hours=5, minutes=30)
+        now_str = ist_now.strftime("%H:%M:%S")
         STATE["last_update"] = now_str
         
         # 1. Update Prices
@@ -70,48 +69,51 @@ def paper_trading_logic():
             p = get_live_price("NASDAQ", sym)
             if p: STATE["prices"]["NASDAQ"][sym] = p
 
-        # 2. Check US Market Hours (Roughly 7:00 PM to 1:30 AM IST)
-        is_us_market_open = (now.hour >= 19 or now.hour < 2)
+        # 2. Check US Market Hours using IST (7:00 PM to 1:30 AM IST)
+        is_us_market_open = (ist_now.hour >= 19 or ist_now.hour < 2)
         
-        # 3. Simulate Paper Trades (Decision Engine)
-        # Agar koi position nahi chal rahi, toh naya trade logic run karo
+        # 3. Decision Engine
         if len(STATE["active_positions"]) == 0:
-            # Decide market based on time
             market = "NASDAQ" if is_us_market_open else "NSE"
             symbol = random.choice(list(STATE["prices"][market].keys()))
             entry_p = STATE["prices"][market][symbol]
             
             new_trade = {
-                "symbol": f"{symbol} LONG",
+                "symbol": f"{symbol} LONG" if market == "NASDAQ" else f"{symbol} LONG",
                 "market": market,
                 "entry_price": entry_p,
                 "current_price": entry_p,
                 "leverage": "3x (Virtual)",
                 "pnl": 0,
                 "status": "RUNNING",
-                "time": now_str
+                "time": now_str,
+                "hold_duration": 0
             }
             STATE["active_positions"].append(new_trade)
-            print(f"📥 Bot Opened Paper Position: {symbol} at {entry_p}")
+            print(f"📥 Opened Position based on IST: {symbol} at {entry_p} (Market: {market})")
             
         # 4. Update Ongoing Positions
         else:
             for pos in STATE["active_positions"]:
-                curr_price = STATE["prices"][pos["market"]][pos["symbol"].split()[0]]
+                pos["hold_duration"] += 1
+                
+                # Dynamic market fluctuation code taaki trades live move karein
+                market_fluctuation = random.uniform(-0.008, 0.009) 
+                curr_price = round(STATE["prices"][pos["market"]][pos["symbol"].split()[0]] * (1 + market_fluctuation), 2)
                 pos["current_price"] = curr_price
                 
-                # PnL Calculation
+                # 3x Leverage PnL
                 change_pct = ((curr_price - pos["entry_price"]) / pos["entry_price"]) * 100
-                pos["pnl"] = round(change_pct * 3, 2) # 3x leverage impact
+                pos["pnl"] = round(change_pct * 3, 2) 
                 
-                # Exit Logic: Random target/stop hit simulation for paper trading
-                if random.random() < 0.15: # 15% chance to close trade every 10 seconds
+                # Exit constraint: Hold for minimum 1-2 minutes (6 loops) before closing randomly
+                if pos["hold_duration"] >= 6 and random.random() < 0.20: 
                     STATE["active_positions"].remove(pos)
                     pos["status"] = "FILLED"
                     pos["exit_time"] = now_str
-                    STATE["trades_history"].insert(0, pos) # History mein add karo
-                    STATE["portfolio"]["total_trades_executed"] += 1 # Counter up
-                    print(f"📤 Bot Closed Position: {pos['symbol']} | Final PnL: {pos['pnl']}%")
+                    STATE["trades_history"].insert(0, pos)
+                    STATE["portfolio"]["total_trades_executed"] += 1
+                    print(f"📤 Closed Position: {pos['symbol']} | Final PnL: {pos['pnl']}%")
 
         time.sleep(10)
 
@@ -124,7 +126,6 @@ def get_state():
     return jsonify(STATE)
 
 if __name__ == '__main__':
-    # Start bot tracking thread
     t = threading.Thread(target=paper_trading_logic, daemon=True)
     t.start()
     
