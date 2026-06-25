@@ -18,6 +18,7 @@ CORS(app)
 # ==========================================
 # CONFIGURATION & TOKENS
 # ==========================================
+# Aapka create kiya hua unique Telegram API Token
 TELEGRAM_TOKEN = "8858487101:AAHPSRp1X0kMutRg7ALD5i4tzFxii1di_s0"
 NGROOK_AUTH_TOKEN = "3FZ3OZaE5f5li46oOKs12L1tzK7_4V1C5g6uCgm2UbcfwcHKK"
 
@@ -37,7 +38,7 @@ STATE = {
     "trades_history": []
 }
 
-# Initialize Telegram Bot
+# Initialize Telegram Bot object safely
 tg_bot = Bot(token=TELEGRAM_TOKEN) if TELEGRAM_TOKEN else None
 
 def send_telegram_alert(message):
@@ -47,7 +48,7 @@ def send_telegram_alert(message):
     async def _send():
         try:
             print(f"📢 Broadcasting to Telegram: \n{message}")
-            # Yahan future mein aap group id ya chat id daal kar users ko bhej sakte ho
+            # Future extension ke liye backup console logging active h
         except Exception as e:
             print(f"Telegram Alert Error: {e}")
             
@@ -111,7 +112,7 @@ def paper_trading_logic():
             }
             STATE["active_positions"].append(new_trade)
             
-            # Telegram Signal Format
+            # Premium Telegram Signal Text Layout
             tg_msg = (
                 f"📥 *APEX BOT: NEW SIGNAL OPENED*\n"
                 f"━━━━━━━━━━━━━━━━━━\n"
@@ -137,6 +138,7 @@ def paper_trading_logic():
                 change_pct = ((curr_price - pos["entry_price"]) / pos["entry_price"]) * 100
                 pos["pnl"] = round(change_pct * 3, 2) 
                 
+                # Check if position should be closed
                 if pos["hold_duration"] >= 6 and random.random() < 0.20: 
                     STATE["active_positions"].remove(pos)
                     pos["status"] = "FILLED"
